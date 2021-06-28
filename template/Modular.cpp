@@ -25,6 +25,7 @@ using namespace std;
 #define all(x)              (x).begin(), (x).end()
 #define endl                '\n'
 #define pb                  push_back
+#define sz(a)               ((int)((a).size()))
 #define int                 long long  
 #define double              long double      
 
