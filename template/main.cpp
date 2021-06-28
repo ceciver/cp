@@ -15,7 +15,6 @@
 
 using namespace std;
 
-#define MOD                 1000000007
 #define MAX                 2e9
 #define MIN                 -2e9
 #define INF                 1e17
@@ -26,6 +25,7 @@ using namespace std;
 #define all(x)              (x).begin(), (x).end()
 #define endl                '\n'
 #define pb                  push_back
+#define sz(a)               ((int)((a).size()))
 #define int                 long long  
 #define double              long double      
 
