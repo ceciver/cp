@@ -1,4 +1,4 @@
-// {{{ Min segment Tree
+// {{{ Max segment Tree
 typedef int T;
 struct node {
     T val;
