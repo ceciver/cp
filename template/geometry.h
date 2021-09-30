@@ -59,7 +59,43 @@ namespace geometry {
 		else 
 			return -1; // RIGHT
 	}
+	
+	bool collinear(Point p1, Point p2, Point p3, Point p4) {
+		bool ans = 1;
+		for(int i=0;i<2;i++) {
+			int loc1 = pointLocation(p1,p2,p3); 
+			int loc2 = pointLocation(p1,p2,p3); 
+			ans &= (loc1 == 0 && loc2 == 0);
+			swap(p1,p3);
+			swap(p2,p4);
+		}
+		return ans;
+	}
+
+	bool intersect(Point p1, Point p2, Point p3, Point p4) {
+		Point p[] = {p1,p2,p3,p4};
+		for(int i=0;i<2;i++) {
+			int loc1 = pointLocation(p[0],p[1],p[2]); 
+			int loc2 = pointLocation(p[0],p[1],p[3]); 
+			if((loc1 > 0 && loc2 > 0) || (loc1 < 0 && loc2 < 0)) {
+				return 0;
+			}
+			swap(p[0],p[2]);
+			swap(p[1],p[3]);
+		}
+		if(collinear(p[0],p[1],p[2],p[3])) {
+			for(int _=0;_<2;_++) {
+				if((max(p[0].x,p[1].x) < min(p[2].x,p[3].x)) || (max(p[0].y,p[1].y) < min(p[2].y,p[3].y))) {
+					return 0;
+				}
+				swap(p[0],p[2]);
+				swap(p[1],p[3]);
+			}
+		}
+		return 1;
+	}
 }
 
 using namespace geometry;
 // }}}
+
