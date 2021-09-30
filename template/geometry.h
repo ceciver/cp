@@ -19,27 +19,27 @@ namespace geometry {
 				cin>>x>>y;
 			}
 
-			inline Point operator-(const Point& b) const {
+			Point operator-(const Point& b) const {
 				return Point(x - b.x , y - b.y);
 			}
 
-			inline Point operator+(const Point& b) const {
+			Point operator+(const Point& b) const {
 				return Point(x + b.x , y + b.y);
 			}
 
-			inline Point operator*(const Point& b) const {
+			Point operator*(const Point& b) const {
 				return Point(x * b.x , y * b.y);
 			}
 
-			inline void operator-=(const Point& b) {
+			void operator-=(const Point& b) {
 				x -= b.x; y -= b.y;
 			}
 
-			inline void operator+=(const Point& b) {
+			void operator+=(const Point& b) {
 				x += b.x; y += b.y;
 			}
 
-			inline void operator*=(const Point& b) {
+			void operator*=(const Point& b) {
 				x *= b.x; y *= b.y;
 			}
 
@@ -63,4 +63,3 @@ namespace geometry {
 
 using namespace geometry;
 // }}}
-
