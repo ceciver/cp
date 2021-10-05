@@ -1,17 +1,13 @@
 // Template {{{
-
-/* 
- * Author: $%U%$
-*/
-
 #include <bits/stdc++.h>
 
 #ifdef LOCAL
-#include "/Library/Debug/debug.h" 
-#define debug(...) cerr << "[" << #__VA_ARGS__ << "]:", debug_out(__VA_ARGS__)
+#include "/Library/debug/debug.h"
+#define debug(x...) cerr << "[" << #x << "] = ["; _print(x)
 #else
 #define debug(x...)
 #endif
+
 
 using namespace std;
 
@@ -21,7 +17,7 @@ using namespace std;
 #define PI                  acos(-1.0)
 #define mid(s,e)            (s+(e-s)/2)
 #define clz(n)              __builtin_clzll(n)
-#define nbOfBits(n)         __builtin_popcount(n)
+#define nbOfBits(n)         __builtin_popcountll(n)
 #define all(x)              (x).begin(), (x).end()
 #define endl                '\n'
 #define pb                  push_back
@@ -44,8 +40,8 @@ using pdd = pair<double, double>;
  
 using vpii = vector<pii>;
 using vpdd = vector<pdd>;
-
 // }}}
+
 // Modular Template {{{
 template <int MOD>
 class Modular {
@@ -139,13 +135,17 @@ public:
     static const int MOD_value = MOD;
 };
 //}}}
+
 using mdint = Modular<(int)1e9+7>;
 
 void solve() {
+
 }
 
 void preprocessing() {}
+
 bool MULTI_TEST_CASES = 0;
+
 // {{{ MAIN 
 int32_t main() {
     ios::sync_with_stdio(false);
@@ -177,4 +177,3 @@ int32_t main() {
     return 0;
 }
 // }}}
-
