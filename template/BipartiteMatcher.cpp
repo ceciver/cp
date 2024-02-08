@@ -48,3 +48,11 @@ struct BipartiteMatcher {
     return ret;
   }
 };
+/*
+do this
+    mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+    for (int i = 0; i < n; i++) {
+        shuffle(bm.G[i].begin(), bm.G[i].end(), rng);
+    }
+
+*/
