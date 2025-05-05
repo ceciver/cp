@@ -1,4 +1,4 @@
-
+// test comment
 struct two_sat {
     int n;
     vector<vector<int>> g, gr;
