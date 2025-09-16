@@ -43,23 +43,25 @@ using vpii = vector<pii>;
 using vpdd = vector<pdd>;
 // }}}
 
-int rnd(int a, int b){
-    return a + rand() % (b - a + 1);
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+int rnd(int a, int b) {
+    uniform_int_distribution<int> dist(a, b);
+    return dist(rng);
 }
 
 void solve() {
-    int n = rnd(5,10) , k = rnd(0, n);
-    cout<<n<<" "<<k<<endl;
+    int n = rnd(5, 10), k = rnd(0, n);
+    cout << n << " " << k << endl;
 
-    for(int i=0;i<n;i++) {
-        char c = 'a' + rnd(0,25);
-        cout<<c;
+    for (int i = 0; i < n; i++) {
+        char c = 'a' + rnd(0, 25);
+        cout << c;
     }
-    cout<<endl;
+    cout << endl;
 }
 
 void preprocessing() {
-    srand(time(0));
 }
 
 bool MULTI_TEST_CASES = 0;
