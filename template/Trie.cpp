@@ -1,27 +1,38 @@
 struct Trie {
-	vvi nxt;
-	vb is_terminal;
-	int id = 0;
+    vvi nxt;
+    vi childs;
 
-	Trie() {
-		nxt = vvi(1,vi(26));
-		is_terminal = vb(1);
-	}
+    Trie() {
+        nxt.push_back(vi(2,-1));
+    }
 
-	void insert(const string& s) {
-		int node = 0;
-		for(char c: s) {
-			if(nxt[node][c-'a'] == 0) {
-				nxt.pb(vi(26));
-				is_terminal.pb(false);
-				nxt[node][c-'a'] = ++id;
+    void insert(int x, bool record = true) {
+        if(record) childs.pb(x);
+        int curr = 0;
+        for(int i=30;i>=0;i--) {
+            int b = (x >> i) & 1;
+            if(nxt[curr][b] == -1) {
+                nxt.push_back(vi(2, -1));
+                nxt[curr][b] = nxt.size() - 1;
+            }
+            curr = nxt[curr][b];
+        }
+    }
 
-			}
-			node = nxt[node][c-'a'];
-		}
-		is_terminal[node] = true;
-	}
+    int mx_xor(int x) {
+        if (nxt.size() == 1 && nxt[0][0] == -1 && nxt[0][1] == -1) return 0;
+        int curr = 0;
+        int ans = 0;
+        for(int i=30;i>=0;i--) {
+            int b = (x >> i) & 1;
+            if(nxt[curr][!b] != -1) {
+                curr = nxt[curr][!b];
+                ans |= (1LL << i);
+            }else {
+                curr = nxt[curr][b];
+            }
+        }
+        return ans;
+    }
+
 };
-
-
-
