@@ -39,4 +39,9 @@ struct Tree2D {
         return ans;
     }
 };
+/*
+Tree2D st(n, m);              
+st.update(x, y, val);        
+int mx = st.query(x1,y1,x2,y2); // query on [x1,x2) × [y1,y2)
+*/
 
