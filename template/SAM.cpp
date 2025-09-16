@@ -1,6 +1,4 @@
- 
 template<int ALPH = 26, int MINC = 'a'>
- 
 struct SAM {
     struct State {
         int link, len;
@@ -11,23 +9,23 @@ struct SAM {
             for (int i = 0; i < ALPH; ++i) next[i] = -1;
         }
     };
- 
+
     vector<State> st;
     int last;
     vector<char> is_term;
     bool occ_ready = false;
     bool dp_ready  = false;
     vector<int> dp_paths;
- 
+
     SAM(int maxlen = 0) {
-        st.reserve(max(2, 2 * maxlen));
+        st.reserve(max(2LL, 2 * maxlen));
         st.push_back(State());
         last = 0;
         is_term.assign(1, false);
     }
- 
+
     static inline bool okc(int c) { return 0 <= c && c < ALPH; }
- 
+
     void extend_idx(int c, int pos) {
         int cur = (int)st.size();
         st.push_back(State());
@@ -36,7 +34,7 @@ struct SAM {
         st[cur].occ = 1;
         int p = last;
         for (; p != -1 && st[p].next[c] == -1; p = st[p].link) st[p].next[c] = cur;
- 
+
         if (p == -1) {
             st[cur].link = 0;
         } else {
@@ -55,7 +53,7 @@ struct SAM {
         }
         last = cur;
     }
- 
+
     void extend_char(char ch, int pos) {
         int c = (int)ch - MINC;
         if (!okc(c)) {
@@ -64,18 +62,18 @@ struct SAM {
         }
         extend_idx(c, pos);
     }
- 
+
     void build(const string &s) {
         for (int i = 0; i < (int)s.size(); ++i) extend_char(s[i], i);
         mark_terminals();
     }
- 
+
     void mark_terminals() {
         is_term.assign(st.size(), false);
         int p = last;
         while (p != -1) { is_term[p] = true; p = st[p].link; }
     }
- 
+
     vector<int> order_by_len() const {
         int mx = 0;
         for (auto &x : st) if (x.len > mx) mx = x.len;
@@ -86,7 +84,7 @@ struct SAM {
         for (int i = (int)st.size() - 1; i >= 0; --i) ord[--cnt[st[i].len]] = i;
         return ord;
     }
- 
+
     void prepare_occ() {
         if (occ_ready) return;
         auto ord = order_by_len();
@@ -96,7 +94,7 @@ struct SAM {
         }
         occ_ready = true;
     }
- 
+
     bool is_substring(const string &w) const {
         int v = 0;
         for (char ch : w) {
@@ -106,7 +104,7 @@ struct SAM {
         }
         return true;
     }
- 
+
     bool is_suffix(const string &w) const {
         int v = 0;
         for (char ch : w) {
@@ -116,13 +114,13 @@ struct SAM {
         }
         return is_term[v];
     }
- 
+
     long long count_distinct_substrings() const {
         long long ans = 0;
         for (int v = 1; v < (int)st.size(); ++v) ans += st[v].len - st[st[v].link].len;
         return ans;
     }
- 
+
     long long count_occurrences(const string &w) {
         prepare_occ();
         int v = 0;
@@ -133,7 +131,7 @@ struct SAM {
         }
         return st[v].occ;
     }
- 
+
     int first_occurrence(const string &w) const {
         int v = 0;
         for (char ch : w) {
@@ -143,7 +141,7 @@ struct SAM {
         }
         return st[v].firstpos - (int)w.size() + 1;
     }
- 
+
     void prepare_paths_dp() {
         if (dp_ready) return;
         auto ord = order_by_len();
@@ -159,7 +157,7 @@ struct SAM {
         }
         dp_ready = true;
     }
- 
+
     string kth_distinct_substring(long long k) {
         prepare_paths_dp();
         long long total = dp_paths[0] - 1;
@@ -182,10 +180,10 @@ struct SAM {
         }
         return ans;
     }
- 
+
     vector<long long> dp_all;
     bool all_ready = false;
- 
+
     void prepare_all_multiplicity_dp() {
         prepare_occ();            
         if (all_ready) return;
@@ -203,7 +201,7 @@ struct SAM {
         }
         all_ready = true;
     }
- 
+
     string kth_substring_all(long long k) {
         prepare_all_multiplicity_dp();
         if (k < 1 || k > dp_all[0]) return string();
@@ -224,8 +222,8 @@ struct SAM {
         }
         return ans;
     }
- 
- 
+
+
     pair<int,int> longest_repeated() {
         prepare_occ();
         int best = 0, idx = 0;
@@ -237,7 +235,7 @@ struct SAM {
         }
         return {best, st[idx].firstpos};
     }
- 
+
     pair<int,int> lcs_against(const string &t) const {
         int v = 0, l = 0, best = 0, pos = -1;
         for (int i = 0; i < (int)t.size(); ++i) {
@@ -250,4 +248,5 @@ struct SAM {
         return {best, pos};
     }
 };
- 
+
+
