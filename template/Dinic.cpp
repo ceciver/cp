@@ -1,11 +1,11 @@
 struct FlowEdge {
     int v, u;
     long long cap, flow = 0;
-    FlowEdge(int v, int u, long long cap) : v(v), u(u), cap(cap) {}
+    FlowEdge(int v, int u, int cap) : v(v), u(u), cap(cap) {}
 };
 
 struct Dinic {
-    const long long flow_inf = 1e18;
+    const int flow_inf = 1e18;
     vector<FlowEdge> edges;
     vector<vector<int>> adj;
     int n, m = 0;
@@ -19,7 +19,7 @@ struct Dinic {
         ptr.resize(n);
     }
 
-    void add_edge(int v, int u, long long cap) {
+    void add_edge(int v, int u, int cap) {
         edges.emplace_back(v, u, cap);
         edges.emplace_back(u, v, 0);
         adj[v].push_back(m);
@@ -43,7 +43,7 @@ struct Dinic {
         return level[t] != -1;
     }
 
-    long long dfs(int v, long long pushed) {
+    int dfs(int v, int pushed) {
         if (pushed == 0)
             return 0;
         if (v == t)
@@ -53,7 +53,7 @@ struct Dinic {
             int u = edges[id].u;
             if (level[v] + 1 != level[u])
                 continue;
-            long long tr = dfs(u, min(pushed, edges[id].cap - edges[id].flow));
+            int tr = dfs(u, min(pushed, edges[id].cap - edges[id].flow));
             if (tr == 0)
                 continue;
             edges[id].flow += tr;
@@ -63,8 +63,8 @@ struct Dinic {
         return 0;
     }
 
-    long long flow() {
-        long long f = 0;
+    int flow() {
+        int f = 0;
         while (true) {
             fill(level.begin(), level.end(), -1);
             level[s] = 0;
@@ -78,4 +78,33 @@ struct Dinic {
         }
         return f;
     }
+
+	// after flow()
+	vector<pii> min_cut_edges() {
+		vector<char> vis(n, false);
+		queue<int> qq;
+		vis[s] = true;
+		qq.push(s);
+		while (!qq.empty()) {
+			int v = qq.front(); qq.pop();
+			for (int id : adj[v]) {
+				int residual = edges[id].cap - edges[id].flow;
+				int u = edges[id].u;
+				if (!vis[u] && residual > 0) {
+					vis[u] = true;
+					qq.push(u);
+				}
+			}
+		}
+
+		vector<pair<int,int>> cut;
+		for (int i = 0; i < m; i += 2) {
+			int v = edges[i].v, u = edges[i].u;
+			if (edges[i].cap > 0 && vis[v] && !vis[u]) {
+				cut.emplace_back(v, u);
+			}
+		}
+		return cut;
+	}
+
 };
