@@ -1,3 +1,12 @@
+// [NAME]: Berlekamp–Massey algorithm
+// [PURPOSE]: Finds the shortest linear recurrence for a sequence over a field (works for mod primes or doubles with care).
+// Typical use: predict future terms, compute n-th term via linear recurrences.
+// [COMPLEXITY]:
+//   - run on sequence length m: O(m^2)
+//   - memory: O(m)
+// [USAGE]:
+//   - Call berlekampMassey(sequence) to obtain coefficients c so that s[k] = sum c[i]*s[k-i-1].
+//   - Works with a type T supporting +, -, *, / and equality to 0.
 template<typename T>
 vector<T> berlekampMassey(const vector<T> &s) {
     vector<T> c;    

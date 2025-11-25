@@ -1,3 +1,14 @@
+// [NAME]: Kuhn's Algorithm for Maximum Bipartite Matching
+// [PURPOSE]: Finds a maximum cardinality matching in a bipartite graph using DFS-based augmenting paths.
+// Typical use: assignment/selection problems when |L| and edges are moderate.
+// [COMPLEXITY]:
+//   - add edge: O(1)
+//   - Solve(): O(|L| * (|L|+|E|)) in practice; faster with shuffled adjacency
+//   - memory: O(|L| + |R| + |E|)
+// [USAGE]:
+//   - Construct with left/right sizes (n,m); add edges via AddEdge(u,v) with 0-based endpoints.
+//   - Call Solve() to return matching size; matched vertices stored in L (left->right) and R (right->left).
+//   - Optionally shuffle adjacency lists before Solve to reduce worst-case behavior (see note at bottom of file).
 struct BipartiteMatcher {
   vector<vector<int>> G;
   vector<int> L, R, Viz;

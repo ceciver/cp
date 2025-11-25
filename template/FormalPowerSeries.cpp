@@ -1,3 +1,15 @@
+// [NAME]: Formal Power Series over mod 998244353 (NTT-based)
+// [PURPOSE]: Supports polynomial multiplication, coefficient queries of product/division via offline techniques.
+// Typical use: convolutions and retrieving k-th coefficient of P/Q in O(n log n).
+// [COMPLEXITY]:
+//   - ntt/conv on size n: O(n log n)
+//   - operator*= on degree d polys: O(d log d)
+//   - convAt/divAt single coefficient: O(d log d) per query (using divide-and-conquer)
+//   - memory: O(d)
+// [USAGE]:
+//   - Uses global MOD=998244353, primitive root=62; vi/Poly are 0-based.
+//   - Build Poly from coefficients, multiply via operator*, conv via conv(), or query convAt/divAt.
+//   - Ensure leading term of divisor is non-zero for divAt; shrink() trims trailing zeros.
 const int MOD = 998244353, root = 62;
 
 static inline int modpow(int a, long long e){

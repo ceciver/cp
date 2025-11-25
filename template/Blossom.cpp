@@ -1,3 +1,14 @@
+// [NAME]: Edmonds' Blossom algorithm (general graph maximum matching)
+// [PURPOSE]: Computes a maximum cardinality matching in an undirected general graph using blossom contractions.
+// Typical use: matching when graph is not bipartite; returns pairings for all vertices.
+// [COMPLEXITY]:
+//   - BFS augment search: O(m)
+//   - Overall: O(n^3) in dense worst case
+//   - memory: O(n + m)
+// [USAGE]:
+//   - Provide 0-based adjacency list `graph` of size n (undirected edges).
+//   - Call Blossom(graph) to obtain `mate` array (mate[v] = matched partner or -1).
+//   - Works better if you prestart with any maximal matching (see note in code); input graph assumed simple.
 vector<int> Blossom(vector<vector<int>>& graph) {
   int n = graph.size(), timer = -1;
   vector<int> mate(n, -1), label(n), parent(n), 

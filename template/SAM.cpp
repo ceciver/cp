@@ -1,3 +1,14 @@
+// [NAME]: Suffix Automaton (SAM)
+// [PURPOSE]: Compact automaton of all substrings of a string; supports occurrence counts, substring checks, k-th substring queries.
+// Typical use: substring existence, counting distinct/all substrings, longest common substring, etc.
+// [COMPLEXITY]:
+//   - extend/build over length n: O(n * alphabet)
+//   - queries (is_substring, count_occurrences, kth_substring...): O(len) or O(answer length)
+//   - memory: O(n * alphabet)
+// [USAGE]:
+//   - Template parameters: ALPH (alphabet size) and MINC (minimum char code). Call build(s) or extend_char per character.
+//   - mark_terminals() called inside build; prepare_occ()/prepare_paths_dp() lazily compute occurrence/path DP.
+//   - Methods assume 0-based string indices; invalid chars reset to root. Occurrence functions require prepare_occ() first.
 template<int ALPH = 26, int MINC = 'a'>
 struct SAM {
     struct State {
@@ -248,5 +259,4 @@ struct SAM {
         return {best, pos};
     }
 };
-
 

@@ -1,4 +1,14 @@
-
+// [NAME]: Lazy Segment Tree with range add + range set (min query)
+// [PURPOSE]: Supports point update, range add, range assignment, and range query using lazy propagation.
+// Typical use: maintain minimum of pairs while applying increments/overwrites on intervals.
+// [COMPLEXITY]:
+//   - build from array: O(n)
+//   - point update/range_add/range_set/query: O(log n)
+//   - memory: O(n)
+// [USAGE]:
+//   - Value type T = pair<int,int>, f = min, unit = {INT_MAX, INT_MAX}; adjust if you swap to other ops.
+//   - Construct with size n or base vector; indices 0-based, ranges are half-open [l, r).
+//   - Call range_add(l,r,delta), range_set(l,r,val), query(l,r); push/build handle lazy tags.
 
 using T = pair<int,int>;
 static constexpr T unit = {INT_MAX, INT_MAX};   
@@ -137,4 +147,3 @@ struct Tree {
         return f(ra, rb);
     }
 };
-

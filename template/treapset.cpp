@@ -502,3 +502,13 @@ class treap {
     return get_sum(root_, left, right);
   }
 };  // class treap
+// [NAME]: Treap (ordered multiset + implicit operations)
+// [PURPOSE]: Randomized BST supporting ordered set operations plus range add/shift/reverse and positional inserts.
+// Typical use: maintain sequence or ordered set with augmented sums in O(log n).
+// [COMPLEXITY]:
+//   - insert/erase/find/get_sum/shift/reverse: O(log n) expected
+//   - memory: O(n)
+// [USAGE]:
+//   - Template on key type T; supports insert by key (unique), insert_at by position, erase by key/pos, lower/upper_bound, move segments.
+//   - Lazy tags `add` (range add) and `rev` (reverse) are pushed; `fsum` stores subtree sum, `cnt` size.
+//   - Nodes indexed 0-based for positional ops; randomness via std::mt19937_64 (owns RNG by default).

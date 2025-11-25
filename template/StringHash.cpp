@@ -40,3 +40,14 @@ struct stringHash {
     }
 
 };
+// [NAME]: Polynomial rolling hash (single mod)
+// [PURPOSE]: Computes prefix hashes for a string to answer substring hash queries in O(1).
+// Typical use: compare substrings, detect palindromes, etc.
+// [COMPLEXITY]:
+//   - preprocessing in constructor: O(n)
+//   - get(l,r): O(1)
+//   - memory: O(n)
+// [USAGE]:
+//   - Precompute pw[i]=BASE^i mod MOD and inv[i]=pw[i]^{-1} outside (BASE=30, arrays sized to SIZE).
+//   - Construct stringHash(s) (0-based); call get(l,r) for hash of [l,r] inclusive.
+//   - Ensure global MOD and SIZE match arrays; hashes are case-sensitive to characters 'a'+.

@@ -1,3 +1,13 @@
+// [NAME]: Hungarian Algorithm for Assignment (min-cost matching)
+// [PURPOSE]: Finds minimum-cost perfect matching of jobs to workers in a rectangular cost matrix (jobs ≤ workers).
+// Typical use: assignment problems where costs are dense; flip signs for max-cost variant.
+// [COMPLEXITY]:
+//   - solve on n jobs, m workers: O(n^2 * m)
+//   - memory: O(n + m)
+// [USAGE]:
+//   - Provide 1-indexed cost matrix a of size (n+1)×(m+1); costs can be negated for maximization.
+//   - Call HungarianMatch(a) to get optimal cost; uncomment block to recover assignment p/way.
+//   - Assumes n ≤ m and large INF constant available; algorithm 1-indexed internally.
 const int inf = (int)1e18;
 // this is one-indexed
 // jobs X workers cost matrix

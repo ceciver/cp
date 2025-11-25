@@ -1,3 +1,12 @@
+// [NAME]: Basic 2D geometry helpers
+// [PURPOSE]: Provides integer Point struct with vector operations plus orientation, collinearity, and segment intersection tests.
+// Typical use: quick geometry primitives for segment overlap/intersection checks.
+// [COMPLEXITY]:
+//   - orientation/intersect: O(1)
+//   - memory: O(1) per object
+// [USAGE]:
+//   - Use geometry::Point(x,y); functions like pointLocation(a,b,c) return orientation of c relative to segment ab.
+//   - intersect(p1,p2,p3,p4) returns whether closed segments intersect; assumes int coordinates and inclusive endpoints.
 // {{{ geometry
 namespace geometry {
 	typedef int T;
@@ -98,4 +107,3 @@ namespace geometry {
 
 using namespace geometry;
 // }}}
-

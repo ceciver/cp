@@ -1,4 +1,15 @@
-// test comment
+// [NAME]: 2-SAT (implication graph + Kosaraju SCC)
+// [PURPOSE]: Decides satisfiability of boolean formulas in CNF with clauses of size 2 and produces an assignment.
+// Typical use: implications, XOR/AND/OR constraints between variables in O((n+m)) time.
+// [COMPLEXITY]:
+//   - add clause: O(1)
+//   - satisfiable(): O(n + m) over 2*n vertices
+//   - memory: O(n + m)
+// [USAGE]:
+//   - Call init(n) where variables are indexed [0, n).
+//   - Use add_clause_or/add_clause_xor/add_clause_and to encode constraints; bool flags choose the literal sign (see note below).
+//   - Call satisfiable(); on success, read assignment from `answer[i]` (1 = true, 0 = false).
+//   - NOTE: Literal-to-index mapping is asymmetric (u = i+n or i; v = j or j+n); verify the sign convention for your use case.
 struct two_sat {
     int n;
     vector<vector<int>> g, gr;

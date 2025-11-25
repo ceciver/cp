@@ -1,3 +1,14 @@
+// [NAME]: Bridge finder (Tarjan)
+// [PURPOSE]: Detects all bridges in an undirected graph via DFS lowlink values.
+// Typical use: identify edges whose removal increases connected components.
+// [COMPLEXITY]:
+//   - build adjacency: O(m)
+//   - scc()/dfs traversal: O(n + m)
+//   - memory: O(n + m)
+// [USAGE]:
+//   - Set global n and fill `adj` (0-based, undirected); call scc() to populate vector `bridges`.
+//   - DFS restarts over unvisited nodes; sort/output currently happens in solve() example.
+//   - Naming note: function scc() here actually finds bridges, not SCCs.
 vvi adj;
 vi id;
 vi low;

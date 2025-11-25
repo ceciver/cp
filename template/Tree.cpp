@@ -90,4 +90,14 @@ struct Tree {
 };
 
 
-
+// [NAME]: Binary Lifting for LCA and distance on trees
+// [PURPOSE]: Preprocesses a rooted tree to answer LCA queries and node lifts quickly.
+// Typical use: compute ancestor jumps and distances in O(log n) after O(n log n) preprocessing.
+// [COMPLEXITY]:
+//   - dfs/build: O(n log n)
+//   - goUp/lca/distance: O(log n)
+//   - memory: O(n log n)
+// [USAGE]:
+//   - Initialize Tree(n); call read() to input an unweighted tree (1-indexed in input, converted to 0-based).
+//   - Rooted at 0; build() fills `up` table; goUp(node,k) returns k-th ancestor or -1 if out of tree.
+//   - lca(a,b) and distance(a,b) use 0-based nodes; adjust LOG if n grows.

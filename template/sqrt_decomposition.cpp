@@ -23,3 +23,14 @@
                 sum += a[i];
         }
     }
+// [NAME]: Sqrt decomposition for range sum (template snippet)
+// [PURPOSE]: Precomputes block sums of an array to answer range queries in ~O(sqrt n) with simple updates.
+// Typical use: static/rarely-updated arrays with moderate constraints where segment tree is overkill.
+// [COMPLEXITY]:
+//   - preprocessing: O(n)
+//   - query(l,r): O(sqrt n)
+//   - memory: O(sqrt n)
+// [USAGE]:
+//   - Choose block size len ≈ sqrt(n); fill block sums b[i/len] over base array a.
+//   - For a query [l,r], sum partial blocks then full blocks as shown; add update logic if needed.
+//   - Variables n,a must be defined externally; snippet uses 0-based inclusive ranges.

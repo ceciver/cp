@@ -1,3 +1,14 @@
+// [NAME]: Hopcroft–Karp Maximum Bipartite Matching
+// [PURPOSE]: Computes maximum matching in bipartite graphs using layered BFS + DFS for O(E sqrt(V)) time.
+// Typical use: faster alternative to Kuhn for larger graphs with many edges.
+// [COMPLEXITY]:
+//   - build adjacency: O(E)
+//   - Solve loop: O(E * sqrt(V))
+//   - memory: O(V + E)
+// [USAGE]:
+//   - Call maxMatch(L, R, edges) with counts of left/right vertices and list of 0-based edges (u in [0,L), v in [0,R)).
+//   - Returns matching size; internal `nxt` (left->right) and `prv` (right->left) can be inspected inside function.
+//   - Graph stored temporarily; adjust if you need the match arrays outside.
 int maxMatch(int L, int R, const vpii& edges) {
 	vvi adj = vvi(L);
 	vi nxt(L,-1), prv(R,-1), lev, ptr;

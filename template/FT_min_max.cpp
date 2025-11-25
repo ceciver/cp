@@ -29,3 +29,13 @@ struct RMQ {
         return res;
     }
 };
+// [NAME]: Iterative segment tree for range maximum queries
+// [PURPOSE]: Supports point updates with max-assignment and range maximum queries on an array.
+// Typical use: dynamic RMQ where elements only increase.
+// [COMPLEXITY]:
+//   - setMax(pos, x): O(log n)
+//   - getMax(L, R): O(log n) on half-open range [L, R)
+//   - memory: O(n)
+// [USAGE]:
+//   - Construct RMQ with size n (0-based indices); values initialized to -INF.
+//   - Call setMax to raise a position, then getMax for queries; relies on power-of-two padding internally.

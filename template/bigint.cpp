@@ -1,3 +1,15 @@
+// [NAME]: Arbitrary-precision integer (base 1e9)
+// [PURPOSE]: Signed big integer supporting addition, subtraction, multiplication, division/mod, exponentiation.
+// Typical use: exact arithmetic beyond 64-bit limits without using external libraries.
+// [COMPLEXITY]:
+//   - add/subtract: O(len)
+//   - multiply by int / long long: O(len)
+//   - long division (divmod): O(len^2) naive
+//   - memory: O(len) digits in base 1e9
+// [USAGE]:
+//   - Construct from long long or string; operators +,-,*,/,%,<<>> ready; use to_string() for output.
+//   - Ensure MOD-style power uses ^ operator (binary exp) and call trim-sensitive operations before relying on size().
+//   - No normalization of leading zeros beyond trim(); sign stored separately.
 // In the name of Allah.
 // We're nothing and you're everything.
 // Ya Ali!

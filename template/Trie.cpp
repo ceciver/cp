@@ -36,3 +36,13 @@ struct Trie {
     }
 
 };
+// [NAME]: Binary trie for maximum XOR queries
+// [PURPOSE]: Stores integers in a bitwise trie to support insertion and max-xor lookup.
+// Typical use: find element maximizing x^y in O(log W) (W = bit width).
+// [COMPLEXITY]:
+//   - insert: O(W)
+//   - mx_xor: O(W)
+//   - memory: O(n * W) nodes
+// [USAGE]:
+//   - Bits considered from 30 down to 0; construct empty Trie, then insert values (optionally recorded in `childs`).
+//   - mx_xor(x) returns maximum xor with x (0 if trie empty); indices are implicit, no deletions implemented.

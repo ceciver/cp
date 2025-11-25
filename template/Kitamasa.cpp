@@ -1,3 +1,13 @@
+// [NAME]: Kitamasa algorithm for linear recurrences
+// [PURPOSE]: Computes n-th term of order-k linear recurrence using polynomial exponentiation.
+// Typical use: fast exponentiation of recurrences when k is moderate.
+// [COMPLEXITY]:
+//   - kitamasa(c, a, n): O(k^2 log n) with naive convolution
+//   - memory: O(k)
+// [USAGE]:
+//   - Recurrence: A_i = sum_{j=1..k} c_{j-1} * A_{i-j}; pass coefficients `c` (size k) and initial terms `a` (size k).
+//   - Call kitamasa(c, a, n) to get A_n (0-based indexing of terms inside code).
+//   - MOD set to 1e9+7; adjust Mod()/operations if modulus changes.
 /*
 Solve A[n] = c1 * A[n-1] + .... + ck * A[k-2] in (K^2 log N)
 

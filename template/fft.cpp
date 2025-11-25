@@ -1,3 +1,14 @@
+// [NAME]: Cooley–Tukey FFT (double) with convolution helper
+// [PURPOSE]: Performs FFT on complex arrays and multiplies integer polynomials via convolution with rounding.
+// Typical use: large integer/coeff convolutions where modular NTT is not available.
+// [COMPLEXITY]:
+//   - fft on length n (power of two): O(n log n)
+//   - multiply(a,b): O((n+m) log(n+m))
+//   - memory: O(n)
+// [USAGE]:
+//   - Ensure PI constant is defined (acos(-1)) and sizes padded to powers of two.
+//   - Call fft(vector<base>&, inv) for forward/inverse; use multiply(a,b) for integer vectors (rounds to ll).
+//   - Inputs are 0-based; remove trailing zeros after convolution if desired (function already trims).
 struct base {
   double a, b;
   base(double a = 0, double b = 0) : a(a), b(b) {}

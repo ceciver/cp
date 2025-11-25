@@ -1,3 +1,4 @@
+// Small helper: modular arithmetic wrapper and competitive programming I/O template (main stub included).
 // Template {{{
 #include <bits/stdc++.h>
 

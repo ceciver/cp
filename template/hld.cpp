@@ -1,3 +1,15 @@
+// [NAME]: Heavy-Light Decomposition with lazy segment tree backend
+// [PURPOSE]: Decomposes a rooted tree into heavy paths to support path/subtree updates and queries.
+// Typical use: translate tree path operations into O(log^2 n) segment tree operations (range add/set/query here).
+// [COMPLEXITY]:
+//   - build (constructor): O(n)
+//   - each path/subtree op: O(log^2 n) with lazy segtree
+//   - memory: O(n)
+// [USAGE]:
+//   - Requires global definitions of T/unit/f and Tree (lazy segment tree) matching those in LazySegTree.cpp.
+//   - Construct HLD<VALS_EDGES>(adj) with 0-based adjacency of rooted tree; VALS_EDGES=false for vertex values, true for edge values.
+//   - Use addPath/setPath/queryPath and addSubtree/setSubtree/querySubtree; build_from_nodes/edges build base array before queries.
+//   - Root is assumed at 0; remove parent from adjacency in dfsSz; ensure Tree supports range operations used.
 // Lazy Segment Tree .cpp
 struct Edge { int u, v; T w; };
 
@@ -83,7 +95,6 @@ template <bool VALS_EDGES> struct HLD {
         tree = Tree(base);
     }
 };
-
 
 
 

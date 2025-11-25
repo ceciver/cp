@@ -1,3 +1,15 @@
+// [NAME]: Successive Shortest Path Min-Cost Max-Flow (Dijkstra with potentials)
+// [PURPOSE]: Computes min-cost flow in directed graphs with nonnegative reduced costs; supports optional Bellman-Ford init for negatives.
+// Typical use: send maximum possible flow with minimal total cost; returns both flow and cost.
+// [COMPLEXITY]:
+//   - addEdge: O(1)
+//   - maxflow(s,t): O(F * E log V) with Dijkstra (F = total flow)
+//   - memory: O(V + E)
+// [USAGE]:
+//   - Construct with node count N; addEdge(u,v,cap,cost) (0-based, directed; ignores self loops).
+//   - If some costs are negative, call setpi(s) before maxflow(); otherwise path() handles potentials on the fly.
+//   - maxflow(s,t) returns {total_flow, total_cost}; edge_flows() lists flows on original forward edges.
+//   - Costs summed from residual graph are halved in return (cost/2) because each edge is stored twice.
 using ll = long long;
 const ll INF = numeric_limits<ll>::max() / 4;
  
@@ -90,4 +102,3 @@ struct MCMF {
     }
  
 };
-

@@ -1,3 +1,15 @@
+// [NAME]: Li Chao Segment Tree for quadratics (min queries)
+// [PURPOSE]: Maintains a set of quadratic functions f(x)=ax^2+bx+c and queries minimum value at points (with optional segment restriction).
+// Typical use: DP optimizations with convex/concave quadratics on integer domains.
+// [COMPLEXITY]:
+//   - add(): O(log X) over domain length
+//   - add_seg(): O(log X) per inserted segment interval
+//   - query(x): O(log X)
+//   - memory: O(nodes) proportional to inserted lines
+// [USAGE]:
+//   - Construct with domain [XMIN, XMAX) (integers). For max queries, insert (-a,-b,-c) and negate answers.
+//   - add(a,b,c) inserts globally; add_seg(...) limits to [L,R).
+//   - query(x) returns min at x; uses dynamic allocation, so free if needed.
 // domain: [XMIN, XMAX). For max: insert (-a,-b,-c) and negate query.
 struct LiChaoQuad {
     struct F { int a,b,c; }; // f(x)=a x^2 + b x + c
@@ -45,4 +57,3 @@ private:
         return min(res, x<M?get(x,L,M,t->l):get(x,M,R,t->r));
     }
 };
-

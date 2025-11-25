@@ -1,3 +1,14 @@
+// [NAME]: FFT-based convolution modulo arbitrary M (split-coefficient trick)
+// [PURPOSE]: Multiplies two integer polynomials modulo M by embedding coefficients into complex numbers and FFT.
+// Typical use: convolution when M is not NTT-friendly but fits in int (cut ~ sqrt(M) splitting).
+// [COMPLEXITY]:
+//   - fft length n: O(n log n)
+//   - convMod(a,b): O((n+m) log(n+m))
+//   - memory: O(n)
+// [USAGE]:
+//   - Provide vectors a,b (can be empty); template parameter M sets modulus.
+//   - convMod<M>(a,b) returns result mod M; internally chooses n as next power of two.
+//   - Requires double precision care; coefficients should be small enough to avoid rounding issues.
 using ll = long long;
 typedef complex<double> C;
 

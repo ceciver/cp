@@ -1,3 +1,14 @@
+// [NAME]: Edmonds–Karp Max Flow (BFS augmenting paths)
+// [PURPOSE]: Simple max-flow implementation using shortest augmenting paths in residual graph.
+// Typical use: small graphs where clarity outweighs performance.
+// [COMPLEXITY]:
+//   - bfs() per augment: O(E)
+//   - maxflow(): O(V * E^2) worst-case
+//   - memory: O(V^2) if using full capacity matrix
+// [USAGE]:
+//   - Set global n, fill `adj` (directed edges) and `capacity` matrix before calling maxflow(s, t).
+//   - Nodes are 0-based; capacity[cur][next] must hold residual capacity.
+//   - Function returns total flow and updates residual capacities; adjacency should include reverse edges for residual graph.
 int n;
 vector<vector<int>> capacity;
 vector<vector<int>> adj;

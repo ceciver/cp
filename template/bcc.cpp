@@ -1,5 +1,16 @@
 //Biconnected components
 
+// [NAME]: Biconnected Components (edges)
+// [PURPOSE]: Finds edge-biconnected components and articulation edges in an undirected graph.
+// Typical use: decompose a connected graph into maximal 2-vertex-connected subgraphs.
+// [COMPLEXITY]:
+//   - addEdge: O(1)
+//   - calc(): O(n + m)
+//   - memory: O(n + m)
+// [USAGE]:
+//   - Construct with node count, call addEdge(u,v) for 0-based undirected edges.
+//   - Call calc() to get a vector of components (each as list of edges).
+//   - Assumes graph is connected and DFS roots at 0; extend calc() loop if not connected.
 struct BCC{
     int n;
     vector<vi> adj;

@@ -1,3 +1,14 @@
+// [NAME]: Dinic Max Flow with capacity scaling (iterative)
+// [PURPOSE]: Computes maximum s-t flow on directed graphs using layered BFS + DFS blocking flows with bit scaling.
+// Typical use: max flow / min cut problems with better performance on larger capacities.
+// [COMPLEXITY]:
+//   - addEdge: O(1)
+//   - calc(s,t): O(E * V * log C) with scaling (C = max capacity)
+//   - memory: O(V + E)
+// [USAGE]:
+//   - Construct with node count n; add directed edges via addEdge(u,v,cap,rcap=0).
+//   - Call calc(source, sink) to obtain max flow; use leftOfMinCut(x) to test min-cut side afterward.
+//   - Graph is 0-based; capacities are ints (adjust type if needed).
 struct Dinic {
     struct Edge {
         int to, rev;

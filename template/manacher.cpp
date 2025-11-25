@@ -1,3 +1,12 @@
+// [NAME]: Manacher's algorithm for palindromic substrings
+// [PURPOSE]: Computes longest palindrome radius centered at each position to answer palindrome queries quickly.
+// Typical use: precompute palindromic lengths in O(n) for substring checks.
+// [COMPLEXITY]:
+//   - manacher_odd / manacher: O(n)
+//   - memory: O(n)
+// [USAGE]:
+//   - Call manacher_odd(s) for odd-length radii on original string; manacher(s) returns radii on interleaved string for even/odd.
+//   - Use returned vector `pal` with helper `is_pal(l,r)` example (0-based, inclusive r) to test palindromes in O(1).
 vector<int> manacher_odd(string s) {
     int n = s.size();
     s = "$" + s + "^";

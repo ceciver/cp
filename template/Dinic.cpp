@@ -1,3 +1,14 @@
+// [NAME]: Dinic Max Flow (long long capacities)
+// [PURPOSE]: Computes maximum flow and min-cut edges on directed graphs using level graph + blocking flow DFS.
+// Typical use: robust max flow for up to ~1e5 edges; supports querying min cut afterward.
+// [COMPLEXITY]:
+//   - add_edge: O(1)
+//   - flow(): O(E * V^2) worst-case, usually much faster
+//   - memory: O(V + E)
+// [USAGE]:
+//   - Construct with (n, source, sink); add directed edges via add_edge(u, v, cap) with 0-based nodes.
+//   - Call flow() to get max flow value; min_cut_edges() returns one possible s-side cut after running flow.
+//   - Capacities and flows are long long; uses BFS to build levels and DFS with ptr for blocking flow.
 struct FlowEdge {
     int v, u;
     long long cap, flow = 0;

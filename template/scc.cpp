@@ -1,3 +1,12 @@
+// [NAME]: Tarjan's algorithm for Strongly Connected Components
+// [PURPOSE]: Decomposes a directed graph into SCCs using DFS with lowlink values.
+// Typical use: condensation DAG building, satisfiability reductions, etc.
+// [COMPLEXITY]:
+//   - scc(): O(n + m)
+//   - memory: O(n + m)
+// [USAGE]:
+//   - Set global n and adjacency `adj` (0-based, directed), then call scc(); results stored in `low` as component ids (1..cnt_scc).
+//   - `cnt_scc` holds number of components; reset globals if reusing on another graph.
 vvi adj;
 vi id;
 vi low;

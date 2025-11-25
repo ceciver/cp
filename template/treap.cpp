@@ -78,3 +78,15 @@ merge(T, T, A);
 merge(T, T, B);
 /* sum (l, r) */ 
 find_sum(T, r) - find_sum(T, l-1);
+// [NAME]: Implicit treap with lazy reverse and prefix sums
+// [PURPOSE]: Maintains sequence with split/merge by position, supporting range reverse and prefix sum queries.
+// Typical use: reorder segments, compute range sums in O(log n) without explicit indices stored.
+// [COMPLEXITY]:
+//   - split/merge: O(log n)
+//   - reverse flag propagation/push: O(1)
+//   - find_sum first k elements: O(log n)
+//   - memory: O(n)
+// [USAGE]:
+//   - Each node stores priority W, size S, subtree sum sm, value V, and lazy flip F; allocate nodes before use.
+//   - merge(left,right) combines; split(treap,left,right,k) splits by position k.
+//   - Example at bottom shows building from array, reversing [l,r], querying sum via find_sum(T,r)-find_sum(T,l-1); indices 0-based.

@@ -41,3 +41,14 @@ vi conv(const vi &a, const vi &b) {
 	ntt(out);
 	return {out.begin(), out.begin() + s};
 }
+// [NAME]: Number Theoretic Transform (NTT) for modulo 998244353
+// [PURPOSE]: Performs fast polynomial convolution using primitive root; returns coefficients modulo 998244353.
+// Typical use: integer convolutions where modulus is friendly for NTT.
+// [COMPLEXITY]:
+//   - ntt of length n: O(n log n)
+//   - conv(a,b): O((n+m) log(n+m))
+//   - memory: O(n)
+// [USAGE]:
+//   - Supply vectors a,b of ints mod 998244353; conv returns convolution result.
+//   - n must be power of two internally; function handles padding and inverse via pw().
+//   - Ensure inputs are reduced mod; uses global constants MOD/root.

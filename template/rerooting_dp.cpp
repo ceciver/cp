@@ -109,4 +109,13 @@ namespace reroot {
 
 */
 
-
+// [NAME]: Generic rerooting DP template
+// [PURPOSE]: Computes values for every tree root by aggregating child contributions with customizable merge/finalize lambdas.
+// Typical use: subtree/path DP that needs answers for all roots or edges in O(n).
+// [COMPLEXITY]:
+//   - rerooter(): O(n * deg) overall (~O(n))
+//   - memory: O(n)
+// [USAGE]:
+//   - Provide adjacency list g (0-based tree) and functions: base(vertex), merge_into(agg, childVal, v, edgeIdx), finalize_merge(agg, v, edgeIdx).
+//   - Call reroot::rerooter(...) to get {root_dp, edge_dp, redge_dp}; see example below for colorings count.
+//   - exclusive() helper builds per-child prefix/suffix merges for reroot step.

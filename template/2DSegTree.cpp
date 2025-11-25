@@ -1,3 +1,15 @@
+// [NAME]: 2D Segment Tree (iterative)
+// [PURPOSE]: Supports point updates and rectangular queries over a grid with a custom associative merge (here: sum).
+// Typical use: dynamic submatrix aggregation in O(log n * log m) per operation.
+// [COMPLEXITY]:
+//   - build from defaults: O(n*m) initialization
+//   - point update: O(log n * log m)
+//   - rectangle query [x1,x2)×[y1,y2): O(log n * log m)
+//   - memory: O(n*m)
+// [USAGE]:
+//   - Construct with dimensions and optional default `def` value: Tree2D st(n, m, def).
+//   - Call update(x, y, val) for point assignment; query(x1, y1, x2, y2) returns aggregate on half-open ranges.
+//   - Assumes 0-based indices for both dimensions and an associative f/unit pair.
 struct Tree2D {
     typedef int T;
     static constexpr T unit = 0;
@@ -44,4 +56,3 @@ Tree2D st(n, m);
 st.update(x, y, val);        
 int mx = st.query(x1,y1,x2,y2); // query on [x1,x2) × [y1,y2)
 */
-

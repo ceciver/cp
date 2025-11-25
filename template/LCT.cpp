@@ -1,3 +1,14 @@
+// [NAME]: Link-Cut Tree (splay-based)
+// [PURPOSE]: Dynamic tree data structure supporting link/cut queries and path aggregate (sum) updates in amortized logarithmic time.
+// Typical use: maintain forests with queries on arbitrary paths as edges are added/removed online.
+// [COMPLEXITY]:
+//   - link/cut/make_root/access: O(log n) amortized
+//   - query_path/set_val/add_val: O(log n) amortized
+//   - memory: O(n)
+// [USAGE]:
+//   - init(N) prepares nodes 1..N (0 is null); set val[x] before queries if needed.
+//   - link(a,b) connects different trees; cut(a,b) or cut_parent(x) removes edges; connected() checks same tree.
+//   - query_path(a,b) returns sum along path; set_val/add_val modify node values; lca(a,b) available after connectivity check.
 using ll = long long;
 
 struct LCT {
@@ -170,4 +181,3 @@ struct LCT {
     }
 
 };
-
