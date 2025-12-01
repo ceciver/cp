@@ -1,65 +1,94 @@
-// [NAME]: Kitamasa algorithm for linear recurrences
-// [PURPOSE]: Computes n-th term of order-k linear recurrence using polynomial exponentiation.
-// Typical use: fast exponentiation of recurrences when k is moderate.
-// [COMPLEXITY]:
-//   - kitamasa(c, a, n): O(k^2 log n) with naive convolution
-//   - memory: O(k)
-// [USAGE]:
-//   - Recurrence: A_i = sum_{j=1..k} c_{j-1} * A_{i-j}; pass coefficients `c` (size k) and initial terms `a` (size k).
-//   - Call kitamasa(c, a, n) to get A_n (0-based indexing of terms inside code).
-//   - MOD set to 1e9+7; adjust Mod()/operations if modulus changes.
-/*
-Solve A[n] = c1 * A[n-1] + .... + ck * A[k-2] in (K^2 log N)
+const int MOD = 998244353;
 
-*/
 
-const int MOD = 1e9+7;
-using ll = long long;
-using poly = vector<ll>;
-
-int Mod(ll x){
-    return (x %= MOD) < 0 ? x + MOD : x;
-}
-
-poly Mul(const poly &a, const poly &b){
-    poly ret(a.size() + b.size() - 1);
-    for(int i=0; i<(int)a.size(); i++) for(int j=0; j<(int)b.size(); j++) {
-        ret[i+j] = (ret[i+j] + a[i] * b[j]) % MOD;
+int modpow(int a, int e) {
+    int r = 1;
+    while (e) {
+        if (e & 1) r = r * a % MOD;
+        a = a * a % MOD;
+        e >>= 1;
     }
-    return ret;
+    return r;
 }
 
-poly Div(const poly &a, const poly &b){
-    poly ret(all(a));
-    for(int i=ret.size()-1; i>=(int)b.size()-1; i--) for(int j=0; j<(int)b.size(); j++) {
-        ret[i+j-b.size()+1] = Mod(ret[i+j-b.size()+1] - ret[i] * b[j]);
-    }
-    ret.resize(b.size()-1);
-    return ret;
+vector<int> berlekampMassey(vector<int> s) {
+	int n = sz(s), L = 0, m = 0;
+	vector<int> C(n), B(n), T;
+	C[0] = B[0] = 1;
+
+	int b = 1;
+	for(int i=0;i<n;i++) { ++m;
+		int d = s[i] % MOD;
+		for(int j=1;j<L+1;j++) d = (d + C[j] * s[i - j]) % MOD;
+		if (!d) continue;
+		T = C; int coef = d * modpow(b, MOD-2) % MOD;
+		for(int j=m;j<n;j++) C[j] = (C[j] - coef * B[j - m]) % MOD;
+		if (2 * L > i) continue;
+		L = i + 1 - L; B = T; b = d; m = 0;
+	}
+
+	C.resize(L + 1); C.erase(C.begin());
+	for (int& x : C) x = (MOD - x) % MOD;
+	return C;
 }
 
-/// A_{n} = \sum c_{i}A_{n-i} = \sum d_{i}A_{i}
-ll kitamasa(poly c, poly a, ll n){
-    poly d = {1}; // result
-    poly xn = {0, 1}; // xn = x^1, x^2, x^4, ...
-    poly f(c.size()+1); // f(x) = x^K - \sum c_{i}x^{i}
-    f.back() = 1;
-    for(int i=0; i<(int)c.size(); i++) f[i] = Mod(-c[i]);
-    while(n){
-        if(n & 1) d = Div(Mul(d, xn), f);
-        n >>= 1; xn = Div(Mul(xn, xn), f);
+int linear_rec(const vi &S, const vi &C, int k) {
+    int L = sz(C);
+    if (k < sz(S)) return (S[k] % MOD + MOD) % MOD;
+    if (L == 0)    return (S[0] % MOD + MOD) % MOD;
+
+    if (L == 1) {
+        int a0 = (S[0] % MOD + MOD) % MOD;
+        return a0 * modpow(C[0], k) % MOD;
     }
 
-    ll ret = 0;
-    for(int i=0; i<(int)a.size(); i++) ret = Mod(ret + a[i] * d[i]);
-    return ret;
+    vi f(L + 1); f[L] = 1;
+    for (int i = 0; i < L; i++) {
+        f[i] = (MOD - C[L - 1 - i]) % MOD;
+    }
+
+    auto mul = [&](const vi &a, const vi &b) { // optimize this using ntt/ftt if needed 
+        vi tmp(2 * L);
+        for (int i = 0; i < L; i++) if (a[i]) {
+            for (int j = 0; j < L; j++) {
+                tmp[i + j] = (tmp[i + j] + a[i] * b[j]) % MOD;
+            }
+        }
+        for (int i = 2 * L - 1; i >= L; i--) if (tmp[i]) {
+            int coef = tmp[i];
+            for (int j = 0; j < L; j++) {
+                tmp[i - L + j] = (tmp[i - L + j] - coef * f[j]) % MOD;
+                if (tmp[i - L + j] < 0) tmp[i - L + j] += MOD;
+            }
+        }
+        tmp.resize(L);
+        return tmp;
+    };
+
+    vi res(L), base(L);
+    res[0] = 1;
+    base[1] = 1;
+
+    int n = k;
+    while (n) {
+        if (n & 1) res = mul(res, base);
+        base = mul(base, base);
+        n >>= 1;
+    }
+
+    int ans = 0;
+    for (int i = 0; i < L; i++) {
+        ans = (ans + res[i] * ((S[i] % MOD + MOD) % MOD)) % MOD;
+    }
+    return ans;
 }
 
-
-void solve() {
-    int k,n;
-    cin>>k>>n;
-    vi dp(k,1);
-    vi rec(k, 1);
-    cout<<kitamasa(rec, dp, n-1)<<endl;
+int kth(const vi &S_all, int k) {
+    if (k < sz(S_all)) return (S_all[k] % MOD + MOD) % MOD;
+    vi C = berlekampMassey(S_all);
+    int L = sz(C);
+    if (L == 0) return (S_all[0] % MOD + MOD) % MOD;
+    vi S(L);
+    for (int i = 0; i < L; i++) S[i] = (S_all[i] % MOD + MOD) % MOD;
+    return linear_rec(S, C, k);
 }
