@@ -37,37 +37,30 @@ int linear_rec(const vi &S, const vi &C, int k) {
     if (k < sz(S)) return (S[k] % MOD + MOD) % MOD;
     if (L == 0)    return (S[0] % MOD + MOD) % MOD;
 
-    if (L == 1) {
-        int a0 = (S[0] % MOD + MOD) % MOD;
-        return a0 * modpow(C[0], k) % MOD;
-    }
-
     vi f(L + 1); f[L] = 1;
-    for (int i = 0; i < L; i++) {
+    for (int i = 0; i < L; i++)
         f[i] = (MOD - C[L - 1 - i]) % MOD;
-    }
 
-    auto mul = [&](const vi &a, const vi &b) { // optimize this using ntt/ftt if needed 
-        vi tmp(2 * L);
-        for (int i = 0; i < L; i++) if (a[i]) {
+    auto mul = [&](const vi &a, const vi &b) {
+        vi t(2 * L);
+        for (int i = 0; i < L; i++) if (a[i])
+            for (int j = 0; j < L; j++)
+                t[i + j] = (t[i + j] + a[i] * b[j]) % MOD;
+        for (int i = 2 * L - 1; i >= L; i--) if (t[i]) {
+            int coef = t[i];
             for (int j = 0; j < L; j++) {
-                tmp[i + j] = (tmp[i + j] + a[i] * b[j]) % MOD;
+                t[i - L + j] = (t[i - L + j] - coef * f[j]) % MOD;
+                if (t[i - L + j] < 0) t[i - L + j] += MOD;
             }
         }
-        for (int i = 2 * L - 1; i >= L; i--) if (tmp[i]) {
-            int coef = tmp[i];
-            for (int j = 0; j < L; j++) {
-                tmp[i - L + j] = (tmp[i - L + j] - coef * f[j]) % MOD;
-                if (tmp[i - L + j] < 0) tmp[i - L + j] += MOD;
-            }
-        }
-        tmp.resize(L);
-        return tmp;
+        t.resize(L);
+        return t;
     };
 
     vi res(L), base(L);
     res[0] = 1;
-    base[1] = 1;
+    if (L == 1) base[0] = C[0];  
+    else        base[1] = 1;      
 
     int n = k;
     while (n) {
@@ -77,18 +70,13 @@ int linear_rec(const vi &S, const vi &C, int k) {
     }
 
     int ans = 0;
-    for (int i = 0; i < L; i++) {
-        ans = (ans + res[i] * ((S[i] % MOD + MOD) % MOD)) % MOD;
-    }
+    for (int i = 0; i < L; i++)
+        ans = (ans + res[i] * (S[i] % MOD + MOD)) % MOD;
     return ans;
 }
 
-int kth(const vi &S_all, int k) {
-    if (k < sz(S_all)) return (S_all[k] % MOD + MOD) % MOD;
+int linear_rec_nth(const vi &S_all, int n) {
+    if (n < sz(S_all)) return (S_all[n] % MOD + MOD) % MOD;
     vi C = berlekampMassey(S_all);
-    int L = sz(C);
-    if (L == 0) return (S_all[0] % MOD + MOD) % MOD;
-    vi S(L);
-    for (int i = 0; i < L; i++) S[i] = (S_all[i] % MOD + MOD) % MOD;
-    return linear_rec(S, C, k);
+    return linear_rec(S_all, C, n);
 }
