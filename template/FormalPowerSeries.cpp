@@ -80,6 +80,30 @@ template<typename T> struct FormalPowerSeries : vector<T> {
         return s;
     }
 
+    P pow(long long e, int lim = -1) const {
+        assert(e >= 0);
+
+        P base = *this;
+        P res{T(1)};
+
+        auto shrink_to = [&](P& f) { if (lim >= 0 && sz(f) > lim) f.resize(lim); };
+
+        shrink_to(base); shrink_to(res);
+        if (e == 0) return res;
+        while (e) {
+            if (e & 1) {
+                res *= base;
+                shrink_to(res);
+            }
+            e >>= 1;
+            if (!e) break; 
+            base *= base;
+            shrink_to(base);
+        }
+        return res;
+    }
+
+
     T divAt(const P& q_, int k) const {
         P p = *this, q = q_;
         p.shrink(); q.shrink();
@@ -116,3 +140,4 @@ template<typename T> struct FormalPowerSeries : vector<T> {
 
 
 using Poly = FormalPowerSeries<int>;
+
