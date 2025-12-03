@@ -1,56 +1,81 @@
-// [NAME]: Tarjan's algorithm for Strongly Connected Components
-// [PURPOSE]: Decomposes a directed graph into SCCs using DFS with lowlink values.
-// Typical use: condensation DAG building, satisfiability reductions, etc.
-// [COMPLEXITY]:
-//   - scc(): O(n + m)
-//   - memory: O(n + m)
-// [USAGE]:
-//   - Set global n and adjacency `adj` (0-based, directed), then call scc(); results stored in `low` as component ids (1..cnt_scc).
-//   - `cnt_scc` holds number of components; reset globals if reusing on another graph.
-vvi adj;
-vi id;
-vi low;
-vb onstack;
- 
-int n;
-int curr_id;
-vi st;
-int cnt_scc;
- 
-void dfs(int u) {
-    st.pb(u);
-    id[u] = low[u] = curr_id++;
-    onstack[u] = 1;
- 
-    for(int v: adj[u]) {
-        if(id[v] == -1) dfs(v);
-        if(onstack[v]) {
-            low[u] = min(low[u], low[v]);
+struct SCC {
+    int n; vvi adj; vi comp; int comp_cnt;  
+    vi id, low, st;
+    vb onstack;
+    int timer;
+
+    SCC(int _n = 0) { init(_n); }
+
+    void init(int _n) {
+        n = _n;
+        adj.assign(n, {});
+        comp.assign(n, -1);
+        id.assign(n, -1);
+        low.assign(n, 0);
+        onstack.assign(n, false);
+        st.clear();
+        timer = 0;
+        comp_cnt = 0;
+    }
+
+    void add_edge(int u, int v) {
+        adj[u].pb(v);
+    }
+
+    void dfs(int u) {
+        id[u] = low[u] = timer++;
+        st.pb(u);
+        onstack[u] = true;
+
+        for (int v : adj[u]) {
+            if (id[v] == -1) {
+                dfs(v);
+                low[u] = min(low[u], low[v]);
+            } else if (onstack[v]) {
+                low[u] = min(low[u], id[v]); 
+            }
+        }
+        if (low[u] == id[u]) {
+            while (true) {
+                int v = st.back(); st.pop_back();
+                onstack[v] = false;
+                comp[v] = comp_cnt;
+                if (v == u) break;
+            }
+            comp_cnt++;
         }
     }
- 
-    if(id[u] == low[u]) {
-        while(true) {
-            int node = st.back();
-            onstack[node] = 0;
-            st.pop_back();
-            low[node] = cnt_scc+1;
-            if(node == u) break; 
+
+    int build() {
+        for (int i = 0; i < n; i++) {
+            if (id[i] == -1) dfs(i);
         }
-        cnt_scc++;
+        return comp_cnt;
     }
+
+    vvi build_dag() {
+        vvi dag(comp_cnt);
+        for (int u = 0; u < n; u++) {
+            for (int v : adj[u]) {
+                if (comp[u] == comp[v]) continue;
+                dag[comp[u]].pb(comp[v]);
+            }
+        }
+        for (int i = 0; i < comp_cnt; i++) {
+            sort(all(dag[i]));
+            dag[i].erase(unique(all(dag[i])), dag[i].end());
+        }
+        return dag;
+    }
+};
+/*
+SCC scc(n);
+scc.add_edge(u, v);
+scc.build();          
+vvi dag = scc.build_dag();
+int N = scc.comp_cnt;
+vi val(N, 0);
+for (int i = 0; i < n; i++) {
+    val[scc.comp[i]] += a[i];
 }
- 
-void scc() {
-    id = vi(n,-1); 
-    onstack = vb(n);
-    low = vi(n);
-    curr_id = 0;
-    cnt_scc = 0;
- 
-    for(int i=0;i<n;i++) {
-        if(id[i] == -1) {
-            dfs(i);
-        }
-    }
-}
+*/
